@@ -50,4 +50,9 @@ export class HttpService {
       })
     );
   }
+
+  getAds(): any {
+
+    return this.http.get<APIResponse<any>>('http://localhost:3000/ads', {});
+  }
 }

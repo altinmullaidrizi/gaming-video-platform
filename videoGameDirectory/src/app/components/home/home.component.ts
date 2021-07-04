@@ -14,8 +14,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   public games: Array<Game>;
   private routeSub: Subscription;
   private gameSub: Subscription;
+  private adSub: Subscription;
+  public ads: Array<any> | APIResponse<any>;
 
-  constructor(    
+  constructor(
     private httpService: HttpService,
     private router: Router,
     private activatedRoute: ActivatedRoute) { }
@@ -28,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.searchGames('metacrit');
       }
     });
+    this.getAds();
   }
 
   searchGames(sort: string, search?: string): void {
@@ -41,6 +44,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   openGameDetails(id: string): void {
     this.router.navigate(['details', id]);
+  }
+
+  getAds(): void {
+    this.adSub = this.httpService.getAds().subscribe((adsList: APIResponse<any>) => {
+      this.ads = adsList;
+    });
   }
 
   ngOnDestroy(): void {
